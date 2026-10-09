@@ -1,0 +1,19 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="124.69" height="58.6041" viewBox="0 0 124.69 58.6041" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="switchboard">
+<rect id="Rectangle 21" width="124.69" height="58.6041" rx="6.23448" fill="#ADADAD"/>
+<rect id="Rectangle 22" x="8.72818" y="4.98759" width="42.3945" height="44.8883" rx="4.98759" fill="#C63535"/>
+<g id="Switch onoff">
+<rect id="Rectangle 23" x="54.8636" y="11.222" width="23.691" height="38.6538" fill="#C63535"/>
+<path id="Rectangle 25" d="M59.2277 7.48133H82.9187L78.5546 11.222H54.8636L59.2277 7.48133Z" fill="#1C1313"/>
+<path id="Vector 2" d="M82.9187 7.48133L78.5546 11.222V51.1227L82.9187 7.48133Z" fill="#453F3F"/>
+</g>
+<g id="switch off">
+<path id="Rectangle 26" d="M84.1656 47.382H109.103L110.974 8.72821H87.2828L84.1656 47.382Z" fill="#C63535"/>
+<path id="Rectangle 27" d="M88.5296 50.4993H112.844L109.103 47.3821H84.7889L88.5296 50.4993Z" fill="#1C1313"/>
+<path id="Vector 3" d="M112.844 50.4993L109.103 47.3821L110.974 8.72828L112.844 50.4993Z" fill="#453F3F"/>
+</g>
+<circle id="Ellipse 4" cx="29.9255" cy="14.9627" r="3.74069" fill="#453F3F"/>
+<circle id="Ellipse 5" cx="21.8206" cy="25.5614" r="3.11724" fill="#453F3F"/>
+<circle id="Ellipse 6" cx="38.0304" cy="25.5614" r="3.11724" fill="#453F3F"/>
+</g>
+</svg>

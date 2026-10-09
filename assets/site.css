@@ -1,0 +1,262 @@
+/* Nishka Dhawan — portfolio.
+   Every page is a 1440px-wide artboard (.stage) scaled to the browser width.
+   --s (scale) is set by a one-line script in <head>; --h is the artboard height. */
+
+:root {
+  --s: 1;
+  --ink: #29292a;
+  --wall: #f3f1ec;
+  --ease: cubic-bezier(.22, .8, .24, 1);
+  --ease-io: cubic-bezier(.45, .05, .2, 1);
+  --spring: cubic-bezier(.3, 1.35, .45, 1);
+}
+
+@view-transition { navigation: auto; }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: .38s; animation-timing-function: var(--ease-io); }
+
+html { overflow-y: scroll; background: var(--wall); -webkit-text-size-adjust: 100%; }
+html, body { margin: 0; }
+body { background: var(--wall); overflow-x: clip; }
+
+.fit { position: relative; width: calc(1440px * var(--s)); height: calc(var(--h) * var(--s) * 1px); margin: 0 auto; overflow: hidden; }
+.stage {
+  position: absolute; left: 0; top: 0; width: 1440px; height: calc(var(--h) * 1px);
+  transform-origin: 0 0; transform: scale(var(--s));
+  overflow: hidden; background: #fff; line-height: 1.5; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+}
+/* Desktop: the desk and the drawer are fitted to the window and centred; their backdrop (wall tile, dark bar,
+   wood planks, night tint, overlay veil) bleeds to the window edges so the page is never boxed in. The bleed
+   elements live in artboard units inside the stage, so they scale and move with everything else. */
+.page-home .fit, .page-drawer .fit { width: 100%; }
+.page-home .stage, .page-drawer .stage { left: calc((100% - 1440px * var(--s)) / 2); overflow: visible; }
+.bleed { position: absolute; left: -4000px; width: 9440px; pointer-events: none; background-repeat: repeat-x; background-position: 4000px 0; background-size: 1440px 100%; }
+.bleed-white { top: 0; height: calc(var(--h) * 1px); background-color: #fff; }
+/* drawer page: the drawer keeps its width and sits on white (Figma frame "Desktop - 30"); Back hugs the window's left edge */
+.page-drawer .stage > .back:not(.organise) { translate: calc(min(10px, var(--edge, 0px)) - var(--edge, 0px)) 0; }   /* Back at 41px from the window edge, as in the wide frame */
+/* the name and the links sit at the window's edges; --edge (set by the head script and site.js) is the distance
+   from the artboard's edge to the window's, in artboard px */
+/* the designer's wide frame insets them a little more than the 1440 one (name 40.5px vs 21px, links 56px vs 38px), so the
+   shift falls short of the full edge by that much once there is room */
+.brand { translate: calc(min(19.5px, var(--edge, 0px)) - var(--edge, 0px)) 0; }
+.nav-r { translate: calc(var(--edge, 0px) - min(18px, var(--edge, 0px))) 0; }
+.bleed-wall { top: 0; height: 1200px; background-repeat: repeat; background-position: 3998px 68px; background-size: 365.49px 599.825px; }
+.banner::before { content: ""; position: absolute; left: -4000px; top: 0; width: 9440px; height: 85px; background: var(--ink); }
+/* browsers without cross-page view transitions get a plain fade instead */
+html:not(.vt) .fit { animation: page-in .45s var(--ease-io) both; }
+html.is-leaving .fit { opacity: 0; transition: opacity .18s var(--ease-io); }
+@keyframes page-in { from { opacity: 0; } to { opacity: 1; } }
+
+/* same baseline the Figma export assumes */
+.stage *, .stage *::before, .stage *::after, .float *, .float *::before { box-sizing: border-box; border: 0 solid; margin: 0; padding: 0; }
+.stage img, .float img { display: block; max-width: 100%; height: auto; -webkit-user-drag: none; }
+.stage button { font: inherit; color: inherit; background: transparent; border-radius: 0; letter-spacing: inherit; cursor: pointer; }
+.stage a, .float a { color: inherit; text-decoration: inherit; }
+.stage ul, .stage ol { list-style: none; }
+.stage li::marker { content: "\2022\00a0\00a0"; font-size: var(--list-marker-font-size); }
+
+.layer { position: absolute; left: 0; top: 0; width: 1440px; height: calc(var(--h) * 1px); }
+.rebase { user-select: none; }
+
+:focus { outline: none; }
+:focus-visible { outline: 2px solid #1f6feb; outline-offset: 3px; border-radius: 6px; }
+
+/* ---------- top bar + contact menu ---------- */
+.banner { z-index: 30; pointer-events: none; height: 0; transition: transform .5s var(--ease), opacity .35s var(--ease-io); }
+.banner > * { pointer-events: auto; }
+.brand { border-radius: 6px; }
+.nav-link { z-index: 2; }
+.nav-link::before, .contact-toggle::before { content: ""; position: absolute; inset: -16px -14px; }
+.nav-link::after { content: ""; position: absolute; left: 0; right: 0; bottom: -5px; height: 1px; background: #fff; transform: scaleX(0); transition: transform .3s var(--ease); }
+.nav-link:hover::after, .nav-link:focus-visible::after { transform: scaleX(1); }
+.contact-toggle { z-index: 2; }
+.contact-underline { transform: scaleX(0); transform-origin: 50% 50%; transition: transform .35s var(--ease); pointer-events: none !important; }
+.contact-toggle:hover + .contact-underline, .menu-open .contact-underline { transform: scaleX(1); }
+.contact-menu { position: absolute; left: 0; top: 0; width: 1440px; height: 0; opacity: 0; visibility: hidden; transform: translateY(-10px); transform-origin: 1336px 93px;
+  transition: opacity .22s var(--ease-io), transform .32s var(--ease), visibility 0s linear .32s; }
+.menu-open .contact-menu { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
+.contact-row { border-radius: 8px; transition: background-color .2s; }
+.contact-row:hover, .contact-row:focus-visible { background-color: rgba(255, 255, 255, .09); }
+
+/* ---------- desk scene ---------- */
+.scene { z-index: 1; user-select: none; transition: transform .6s var(--ease); will-change: transform; }
+/* artwork never takes the click meant for the thing underneath it */
+.scene > :not(.hot):not(.folder) { pointer-events: none; }
+.g { pointer-events: none; }
+.g > .hot { pointer-events: auto; }
+.hot { position: absolute; display: block; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.v { position: absolute; left: 0; top: 0; display: block; pointer-events: none; }
+.v-hover { opacity: 0; transition: opacity .26s var(--ease-io), transform .4s var(--ease); }
+.hot-resume .v-hover { transform-origin: 30% 100%; transform: scale(.94); }
+.hot-drawer .v-hover { transform: translateY(-7px); }
+.hot-card { z-index: 0; }
+.card-swing { position: absolute; inset: 0; display: block; transition: transform .5s var(--spring); }
+.card-tag {
+  position: absolute; left: 56px; top: 164.3px; width: 88.1px; height: 17.4px; display: block;
+  background: var(--ink); border: 1px solid #fff; color: #fff; text-align: center; white-space: nowrap;
+  font: 300 8px/15.4px 'Albert Sans', sans-serif; letter-spacing: .08px;
+  opacity: 0; transform: rotate(7.19deg) translateY(6px); transition: opacity .2s var(--ease-io), transform .4s var(--ease); pointer-events: none;
+}
+.hot-switch { transition: transform .12s; }
+.hot-switch:active { transform: translateY(1px) scale(.97); }
+.back { z-index: 40; border-radius: 29px; transition: transform .25s var(--ease), filter .25s; }
+.back:active { transform: scale(.96); }
+
+@media (hover: hover) {
+  .hot:hover .v-hover { opacity: 1; transform: none; }
+  .hot-card:hover .card-swing { transform: translate(15.3px, 32.3px) rotate(15.46deg); }
+  .hot-card:hover .card-tag { opacity: 1; transform: rotate(7.19deg); transition-delay: .08s; }
+  .hot-card:hover::after { content: ""; position: absolute; left: 0; top: 0; right: -32px; bottom: -52px; }
+  .hot-switch:hover { filter: brightness(1.06); }
+  .back:hover { transform: translateX(-4px); filter: brightness(1.25); }
+  .back:hover:active { transform: translateX(-4px) scale(.96); }
+}
+.hot:focus-visible .v-hover { opacity: 1; transform: none; }
+.hot-card:focus-visible .card-swing { transform: translate(15.3px, 32.3px) rotate(15.46deg); }
+.hot-card:focus-visible .card-tag { opacity: 1; transform: rotate(7.19deg); }
+
+/* lights off: one flat tint over the room, as in the design (rgb 0 26 74 at 63%) */
+.night { position: absolute; left: -4000px; top: 0; width: 9440px; height: 1400px; background: rgba(0, 26, 74, .63); opacity: 0; pointer-events: none; transition: opacity .7s var(--ease-io); }
+.is-night .night { opacity: 1; }
+
+/* ---------- About / Resume overlays ---------- */
+.overlay { position: absolute; left: 0; top: 0; width: 1440px; height: calc(var(--h) * 1px); z-index: 20; visibility: hidden; pointer-events: none; transition: visibility 0s linear .5s; }
+.overlay.is-open { visibility: visible; pointer-events: auto; transition-delay: 0s; }
+.veil { opacity: 0; transition: opacity .45s var(--ease-io); cursor: pointer; }
+.overlay.is-open .veil { opacity: 1; }
+.panel { opacity: 0; transform: translateY(26px) scale(.975); transform-origin: 720px 400px; transition: opacity .3s var(--ease-io), transform .55s var(--ease); pointer-events: none; height: 0; }
+.panel > * { pointer-events: auto; }
+.overlay.is-open .panel { opacity: 1; transform: none; transition-delay: .06s; }
+.overlay .back { opacity: 0; translate: -14px 0; transition: opacity .3s var(--ease-io), translate .45s var(--ease), transform .25s var(--ease), filter .25s; }
+.overlay.is-open .back { opacity: 1; translate: 0 0; transition-delay: .12s, .12s, 0s, 0s; }
+.has-overlay .scene { transform: translateY(-90px); }
+.has-overlay .banner { transform: translateY(-90px); opacity: 0; }
+.cv-link { border-radius: 3px; }
+.cv-link:hover { color: #1f4f9c; }
+.download { border-radius: 14px; transition: transform .25s var(--ease), filter .25s; }
+.download:hover { transform: translateY(-2px); filter: brightness(1.18); }
+.download:active { transform: scale(.97); }
+
+/* ---------- drawer of projects ---------- */
+/* each folder knows its tilt (--r1), and where it goes when the drawer is tidied (--tx --ty --k --r2) */
+.folder { position: absolute; display: block; cursor: pointer; -webkit-tap-highlight-color: transparent; pointer-events: none; rotate: var(--r1);
+  transition: transform .45s var(--ease), translate .8s var(--ease), scale .8s var(--ease), rotate .8s var(--ease); transition-delay: 0s, calc(var(--i) * 35ms), calc(var(--i) * 35ms), calc(var(--i) * 35ms); }
+.is-tidy .folder, html.tidy .folder { translate: var(--tx) var(--ty); scale: var(--k); rotate: var(--r2); }
+.organise { z-index: 40; }
+.organise p { white-space: nowrap; }
+.folder > * { pointer-events: auto; }
+.preview { position: absolute; display: block; overflow: hidden; opacity: 0; transform: translateY(18px); transition: opacity .28s var(--ease-io), transform .45s var(--ease); pointer-events: none !important; }
+.preview img { width: 100%; height: 100%; }
+@media (hover: hover) {
+  .folder:hover { transform: translateY(-10px); }
+  .folder:hover .preview { opacity: 1; transform: none; }
+}
+.folder:focus-visible { transform: translateY(-10px); outline-offset: -6px; }
+.folder:focus-visible .preview { opacity: 1; transform: none; }
+
+/* ---------- project pages: Back stays within reach while scrolling ---------- */
+.float { position: fixed; left: max(0px, calc((100% - 1440px * var(--s)) / 2)); top: 0; width: 1440px; height: 0; z-index: 50; transform-origin: 0 0; transform: scale(var(--s)); line-height: 1.5; -webkit-font-smoothing: antialiased; }
+html:not(.vt) .float { animation: page-in .45s var(--ease-io) both; }
+
+/* Touch screens: bigger invisible finger targets for the small controls (the artboard is scaled down a lot on phones). */
+@media (pointer: coarse) {
+  :focus-visible { outline: none; }                                            /* touch screens never show keyboard focus rings */
+  .hot:focus-visible .v-hover { opacity: 0; transform: translateY(-7px); }
+  .hot-card:focus-visible .card-swing, .folder:focus-visible { transform: none; }
+  .hot-card:focus-visible .card-tag, .folder:focus-visible .preview { opacity: 0; }
+  .nav-link::before, .contact-toggle::before { inset: -40px -22px; }
+  .back::before, .organise::before, .hot-switch::before { content: ""; position: absolute; inset: -40px; }
+}
+
+/* ---------- 404 page ---------- */
+.nf { max-width: 560px; margin: 18vh auto 0; padding: 0 24px; font-family: 'Albert Sans', sans-serif; color: var(--ink); }
+.nf-code { font: 600 13px/1 'Albert Sans', sans-serif; letter-spacing: .3em; opacity: .45; margin: 0 0 14px; }
+.nf h1 { font: 600 clamp(26px, 5vw, 38px)/1.15 'Albert Sans', sans-serif; letter-spacing: -.01em; margin: 0 0 14px; }
+.nf p { font-size: 16px; line-height: 1.55; margin: 0; }
+.nf a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+
+/* ---------- phones held upright ----------
+   The artboards are landscape, so on a portrait phone the desk and the drawer fill the screen
+   height and pan sideways like a panorama (starting centred); project pages keep their slides
+   full-width. A fixed header outside the scaled artboard carries the name and the menu. */
+.m-bar, .m-hint, .m-about, .m-cap { display: none; }
+@media (max-width: 760px) and (orientation: portrait) and (hover: none) {   /* touch phones only — never a narrow desktop window */
+  body { padding-top: 56px; }
+  .fit { width: auto; margin: 0; }
+  .banner, .float { display: none !important; }
+  .m-bar { display: flex; position: fixed; left: 0; right: 0; top: 0; height: 56px; z-index: 60; box-sizing: border-box; align-items: center; justify-content: space-between; gap: 12px; padding: 0 16px;
+    background: var(--ink); color: #fff; font-family: 'Albert Sans', sans-serif; -webkit-font-smoothing: antialiased; }
+  .m-bar a, .m-bar button { color: inherit; text-decoration: none; background: none; border: 0; font: inherit; padding: 0; margin: 0; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+  .m-brand { font-weight: 600; font-size: 15px; line-height: 1.1; letter-spacing: .2px; white-space: nowrap; }
+  .m-brand small { display: block; font-weight: 300; font-size: 9.5px; letter-spacing: .1px; opacity: .78; margin-top: 3px; }
+  .m-back { font-weight: 500; font-size: 14px; white-space: nowrap; }
+  .m-back span { font-size: 20px; line-height: 0; position: relative; top: 1px; margin-right: 2px; }
+  .m-nav { display: flex; align-items: center; gap: 16px; font-size: 13px; font-weight: 500; white-space: nowrap; }
+  .m-nav > * { position: relative; padding: 12px 0; }
+  .m-nav > *::before { content: ""; position: absolute; inset: -4px -8px; }
+  .m-contact[aria-expanded="true"] { text-decoration: underline; text-underline-offset: 4px; }
+  .m-home { display: none; }
+  html.overlay-open .m-home { display: block; }
+  html.overlay-open .m-brand { display: none; }
+  .m-menu { position: fixed; left: 0; right: 0; top: 56px; z-index: 59; display: grid; padding: 4px 16px 10px; background: var(--ink); color: #fff; font-family: 'Albert Sans', sans-serif;
+    opacity: 0; visibility: hidden; transform: translateY(-8px); transition: opacity .22s var(--ease-io), transform .32s var(--ease), visibility 0s linear .32s; }
+  .m-open .m-menu { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
+  .m-menu a { display: block; padding: 12px 0; font-size: 14px; border-top: 1px solid rgba(255, 255, 255, .12); }
+  .m-menu a:first-child { border-top: 0; }
+  /* Drawer: the eight folders become a two-column grid inside a taller drawer. Per-folder --mx/--my/--mk/--mr
+     come from build.cjs; --inh/--dh (interior / drawer height) are written into the page head. */
+  .page-drawer { --stageh: calc((100dvh - 56px) / var(--s)); }
+  .page-drawer .fit { height: calc(max(var(--stageh), var(--dh)) * var(--s)); }
+  .page-drawer .stage { height: max(var(--stageh), var(--dh)); background: var(--wall); left: 0; overflow: hidden; }
+  .bleed { display: none; }
+  .page-drawer .scene { height: 100%; }
+  .page-drawer .dr-in, .page-drawer .dr-tex { height: var(--inh) !important; }
+  .page-drawer .dr-bottom { top: calc(268px + var(--inh)) !important; }
+  .page-drawer .folder, .page-drawer .is-tidy .folder, html.tidy .page-drawer .folder { translate: var(--mx) var(--my); scale: var(--mk); rotate: var(--mr); transition: none; }
+  .page-drawer .organise, .page-drawer .back { display: none !important; }
+  .m-cap { display: block; position: absolute; left: -10%; right: -10%; top: calc(100% + 12px); text-align: center; color: #efe8d9; font-family: 'Albert Sans', sans-serif; line-height: 1.2; letter-spacing: .3px; pointer-events: none; }
+  .m-cap b { display: block; font-weight: 600; font-size: 40px; }
+  .m-cap i { display: block; font-style: normal; font-weight: 300; font-size: 30px; opacity: .85; margin-top: 4px; }
+  /* Home: the room recomposed for a tall screen. --s is the plain width fit; the three scene layers are
+     re-placed inside a 1440 x var(--hm) artboard: wall panels enlarged to cover it, the pinboard spanning
+     the width on top, the desk (with lamp, switch, flowers) below it, vertically centred on the screen. */
+  .page-home { --room: 1745px; --stageh: calc((100dvh - 56px) / var(--s)); --oy: max(0px, calc((var(--stageh) - var(--room)) / 2)); }   /* --room: pinboard top to the end of the legs */
+  .page-home .fit { height: calc(100dvh - 56px); }
+  .page-home .stage { height: var(--stageh); background: var(--wall); left: 0; overflow: hidden; }
+  .page-home .g, .page-home .g-bg { transform-origin: 0 0; }
+  .page-home .g-bg { transform: translateY(-170px) scale(2.5); }   /* wall panels start at the very top and cover the tallest phone */
+  .page-home .g-wall { transform: translate(-427.8px, calc(-18.7px + var(--oy))) scale(1.5704); }
+  .page-home .g-wall > :not(.board) { transform-origin: var(--po, 50% 0); transform: scale(1.2); }   /* pinned things a bit bigger, each growing from its pin */
+  /* the About card shows its "Click for more" state by itself (no hover on a phone), in a slow loop */
+  .page-home .card-swing { animation: card-peek 7s var(--ease) 1.2s infinite; }
+  .page-home .card-tag { left: 104px; top: 164px; width: 150px; height: 30px; font-size: 15px; line-height: 28px; letter-spacing: .3px; border-radius: 4px; animation: tag-peek 7s var(--ease-io) 1.2s infinite; }
+
+  .page-home .g-desk { transform: translate(-86.4px, calc(288px + var(--oy))) scale(1.12); }   /* table centred */
+  .page-home .g-desk .sw { translate: 45px 0; }                                                 /* switch + cable nudged right so the switch stays on screen */
+  .page-home .g-desk .tag { transform: scale(1.7); transform-origin: 847px 0; }                  /* the Open Drawer tag grows from where its string meets the drawer */
+  .page-home .scene, .page-home .night { height: var(--stageh); }
+  /* About on a phone: a full-screen sheet with the card's content (the desktop pop-up stays hidden; Resume opens the PDF) */
+  .page-home .overlay { display: none !important; }
+  html.overlay-open .m-about { display: block; }
+  .m-about { position: fixed; left: 0; right: 0; top: 56px; bottom: 0; z-index: 55; overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain;
+    background: #cfae7f center / cover; color: var(--ink); font-family: 'Albert Sans', sans-serif; -webkit-font-smoothing: antialiased; }
+  .m-about-in { padding: 22px 22px 40px; max-width: 560px; margin: 0 auto; }
+  .m-about-photo { display: block; width: 46%; max-width: 220px; height: auto; margin: 0 0 18px; box-shadow: 2px 3px 6px rgba(0, 0, 0, .25); }
+  .m-about h2 { font: 600 28px/1.15 'Raleway', sans-serif; letter-spacing: .3px; margin: 0 0 12px; }
+  .m-about h3 { font: 500 18px/1.2 'Raleway', sans-serif; margin: 26px 0 10px; }
+  .m-about p { font-size: 15px; line-height: 1.55; margin: 0 0 12px; text-align: left; }
+  .m-tools { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+  .m-tools img { height: 40px; width: auto; display: block; }
+  .m-skills { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 6px 14px; font-size: 15px; line-height: 1.5; }
+  .m-exp strong { font-weight: 600; } .m-exp em { font-weight: 300; }
+  .has-overlay .scene { transform: none; }
+  .m-hint { display: block; position: fixed; left: 50%; bottom: 20px; z-index: 60; transform: translate(-50%, 8px); padding: 10px 16px; border-radius: 999px;
+    background: rgba(41, 41, 42, .94); color: #fff; font: 500 13px/1.3 'Albert Sans', sans-serif; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity .3s var(--ease-io), transform .4s var(--ease); }
+  .m-hint.is-on { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+}
+@keyframes card-peek { 0%, 14% { transform: none; } 26%, 62% { transform: translate(15.3px, 32.3px) rotate(15.46deg); } 76%, 100% { transform: none; } }
+@keyframes tag-peek { 0%, 20% { opacity: 0; transform: rotate(7.19deg) translateY(6px); } 30%, 58% { opacity: 1; transform: rotate(7.19deg); } 70%, 100% { opacity: 0; transform: rotate(7.19deg) translateY(6px); } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+  ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
+}
+@media print { .float, .banner { display: none; } }

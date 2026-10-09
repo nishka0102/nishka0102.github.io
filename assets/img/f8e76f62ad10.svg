@@ -1,0 +1,33 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="877.067" height="472.289" viewBox="0 0 877.067 472.289" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="gridboard" filter="url(#filter0_d_0_82)">
+<line id="Line 10" x1="430.189" y1="2.5" x2="430.189" y2="462.289" stroke="black" stroke-width="5"/>
+<line id="Line 21" x1="865.95" y1="103.415" x2="2.8833" y2="103.415" stroke="black" stroke-width="5"/>
+<line id="Line 22" x1="865.95" y1="175.498" y2="175.498" stroke="black" stroke-width="5"/>
+<line id="Line 23" x1="865.95" y1="247.58" y2="247.58" stroke="black" stroke-width="5"/>
+<line id="Line 24" x1="865.95" y1="319.663" y2="319.663" stroke="black" stroke-width="5"/>
+<line id="Line 25" x1="863.067" y1="391.745" x2="0.961121" y2="391.745" stroke="black" stroke-width="5"/>
+<line id="Line 11" x1="502.271" y1="2.5" x2="502.271" y2="462.289" stroke="black" stroke-width="5"/>
+<line id="Line 16" x1="69.7769" y1="2.5" x2="69.7769" y2="462.289" stroke="black" stroke-width="5"/>
+<line id="Line 12" x1="574.354" y1="2.5" x2="574.354" y2="462.289" stroke="black" stroke-width="5"/>
+<line id="Line 17" x1="141.859" y1="2.5" x2="141.859" y2="462.289" stroke="black" stroke-width="5"/>
+<line id="Line 13" x1="646.436" y1="2.5" x2="646.436" y2="462.289" stroke="black" stroke-width="5"/>
+<line id="Line 18" x1="213.942" y1="2.5" x2="213.942" y2="462.289" stroke="black" stroke-width="5"/>
+<line id="Line 14" x1="718.519" y1="2.5" x2="718.519" y2="462.289" stroke="black" stroke-width="5"/>
+<line id="Line 19" x1="286.024" y1="2.5" x2="286.024" y2="462.289" stroke="black" stroke-width="5"/>
+<line id="Line 15" x1="790.601" y1="2.5" x2="790.601" y2="462.289" stroke="black" stroke-width="5"/>
+<line id="Line 20" x1="358.107" y1="2.5" x2="358.107" y2="462.289" stroke="black" stroke-width="5"/>
+<rect id="Rectangle 17" x="2.6167" y="2.5" width="860.95" height="457.289" rx="35.5" stroke="black" stroke-width="5"/>
+</g>
+<defs>
+<filter id="filter0_d_0_82" x="0" y="0" width="877.067" height="472.289" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dx="7" dy="6"/>
+<feGaussianBlur stdDeviation="2"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_0_82"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_0_82" result="shape"/>
+</filter>
+</defs>
+</svg>
